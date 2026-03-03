@@ -32,6 +32,30 @@
 
   const PHD_TIER_LABELS = { 1: 'Ivy/Elite', 2: 'Top State', 3: 'Mid-Tier', 4: 'Low-Prestige' };
 
+  // Bio templates — same info (name, school, pubs, teaching), different wording
+  const BIO_TEMPLATES = [
+    function (p) {
+      return p.name + ' is completing their PhD in Sociology at ' + p.phd +
+        '. They have published ' + p.pubs + ' peer-reviewed article' + (p.pubs === 1 ? '' : 's') +
+        ' and received a teaching evaluation score of ' + p.teaching + '/5.0.';
+    },
+    function (p) {
+      return p.name + ' is a doctoral candidate in Sociology at ' + p.phd +
+        '. Their record includes ' + p.pubs + ' peer-reviewed publication' + (p.pubs === 1 ? '' : 's') +
+        ', and their teaching evaluations average ' + p.teaching + ' out of 5.0.';
+    },
+    function (p) {
+      return p.name + ' is finishing their doctorate in Sociology at ' + p.phd +
+        '. They have authored ' + p.pubs + ' peer-reviewed paper' + (p.pubs === 1 ? '' : 's') +
+        ' and hold a teaching rating of ' + p.teaching + '/5.0.';
+    },
+    function (p) {
+      return p.name + ' is a PhD candidate in Sociology at ' + p.phd +
+        ' with ' + p.pubs + ' peer-reviewed publication' + (p.pubs === 1 ? '' : 's') +
+        '. Students rate their teaching ' + p.teaching + '/5.0.';
+    },
+  ];
+
   // --- State ---
   var state = {
     sessionId: '',
@@ -130,9 +154,8 @@
 
   function fillCard(side, profile) {
     document.getElementById(side + '-name').textContent = profile.name;
-    document.getElementById(side + '-phd').textContent = profile.phd;
-    document.getElementById(side + '-pubs').textContent = profile.pubs;
-    document.getElementById(side + '-teaching').textContent = profile.teaching + ' / 5.0';
+    var template = BIO_TEMPLATES[Math.floor(Math.random() * BIO_TEMPLATES.length)];
+    document.getElementById(side + '-bio').textContent = template(profile);
   }
 
   function replaceCardListener(id, handler) {

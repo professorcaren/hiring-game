@@ -33,26 +33,35 @@
   const PHD_TIER_LABELS = { 1: 'Ivy/Elite', 2: 'Top State', 3: 'Mid-Tier', 4: 'Low-Prestige' };
 
   // Bio templates — same info (name, school, pubs, teaching), different wording
+  function pronouns(p) {
+    if (p.gender === 'female') return { subj: 'She', obj: 'her', poss: 'Her' };
+    return { subj: 'He', obj: 'him', poss: 'His' };
+  }
+
   const BIO_TEMPLATES = [
     function (p) {
-      return p.name + ' is completing their PhD in Sociology at ' + p.phd +
-        '. They have published ' + p.pubs + ' peer-reviewed article' + (p.pubs === 1 ? '' : 's') +
+      var pr = pronouns(p);
+      return pr.subj + ' is completing ' + pr.poss.toLowerCase() + ' PhD in Sociology at ' + p.phd +
+        '. ' + pr.subj + ' has published ' + p.pubs + ' peer-reviewed article' + (p.pubs === 1 ? '' : 's') +
         ' and received a teaching evaluation score of ' + p.teaching + '/5.0.';
     },
     function (p) {
-      return p.name + ' is a doctoral candidate in Sociology at ' + p.phd +
-        '. Their record includes ' + p.pubs + ' peer-reviewed publication' + (p.pubs === 1 ? '' : 's') +
-        ', and their teaching evaluations average ' + p.teaching + ' out of 5.0.';
+      var pr = pronouns(p);
+      return pr.subj + ' is a doctoral candidate in Sociology at ' + p.phd +
+        '. ' + pr.poss + ' record includes ' + p.pubs + ' peer-reviewed publication' + (p.pubs === 1 ? '' : 's') +
+        ', and ' + pr.poss.toLowerCase() + ' teaching evaluations average ' + p.teaching + ' out of 5.0.';
     },
     function (p) {
-      return p.name + ' is finishing their doctorate in Sociology at ' + p.phd +
-        '. They have authored ' + p.pubs + ' peer-reviewed paper' + (p.pubs === 1 ? '' : 's') +
-        ' and hold a teaching rating of ' + p.teaching + '/5.0.';
+      var pr = pronouns(p);
+      return pr.subj + ' is finishing ' + pr.poss.toLowerCase() + ' doctorate in Sociology at ' + p.phd +
+        '. ' + pr.subj + ' has authored ' + p.pubs + ' peer-reviewed paper' + (p.pubs === 1 ? '' : 's') +
+        ' and holds a teaching rating of ' + p.teaching + '/5.0.';
     },
     function (p) {
-      return p.name + ' is a PhD candidate in Sociology at ' + p.phd +
+      var pr = pronouns(p);
+      return pr.subj + ' is a PhD candidate in Sociology at ' + p.phd +
         ' with ' + p.pubs + ' peer-reviewed publication' + (p.pubs === 1 ? '' : 's') +
-        '. Students rate their teaching ' + p.teaching + '/5.0.';
+        '. Students rate ' + pr.poss.toLowerCase() + ' teaching ' + p.teaching + '/5.0.';
     },
   ];
 

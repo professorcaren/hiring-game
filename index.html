@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Faculty Hiring Simulation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Welcome Screen -->
+  <div id="welcome-screen" class="screen active">
+    <div class="container">
+      <h1>Faculty Hiring Simulation</h1>
+      <p class="intro-text">
+        Your sociology department is hiring a new faculty member.
+        You'll review <strong>5 pairs of candidates</strong> — all completing
+        their PhD this year — and choose who to hire.
+      </p>
+      <button id="start-btn" class="btn btn-primary">Start</button>
+    </div>
+  </div>
+
+  <!-- Comparison Screen -->
+  <div id="comparison-screen" class="screen">
+    <div class="container">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <p class="round-label" id="round-label">Pair 1 of 5</p>
+      <p class="prompt">Which candidate would you hire?</p>
+      <div class="cards-stack">
+        <div class="candidate-card" id="card-left" tabindex="0" role="button">
+          <div class="card-name" id="left-name"></div>
+          <div class="card-details">
+            <div class="detail-row">
+              <span class="detail-label">PhD</span>
+              <span class="detail-value" id="left-phd"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Publications</span>
+              <span class="detail-value" id="left-pubs"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Teaching</span>
+              <span class="detail-value" id="left-teaching"></span>
+            </div>
+          </div>
+        </div>
+        <div class="vs-divider">vs.</div>
+        <div class="candidate-card" id="card-right" tabindex="0" role="button">
+          <div class="card-name" id="right-name"></div>
+          <div class="card-details">
+            <div class="detail-row">
+              <span class="detail-label">PhD</span>
+              <span class="detail-value" id="right-phd"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Publications</span>
+              <span class="detail-value" id="right-pubs"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Teaching</span>
+              <span class="detail-value" id="right-teaching"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thank You Screen -->
+  <div id="thankyou-screen" class="screen">
+    <div class="container">
+      <h1>Thank you!</h1>
+      <p>Your responses have been recorded.</p>
+    </div>
+  </div>
+
+  <!-- Admin Screen (hidden unless ?admin=true) -->
+  <div id="admin-screen" class="screen">
+    <div class="container admin-container">
+      <h1>Admin Dashboard</h1>
+      <p id="admin-status">Loading data...</p>
+      <div id="admin-charts">
+        <div class="chart-section">
+          <h2>Hire Rate by PhD Tier</h2>
+          <canvas id="chart-phd"></canvas>
+        </div>
+        <div class="chart-section">
+          <h2>Hire Rate by Gender</h2>
+          <canvas id="chart-gender"></canvas>
+        </div>
+        <div class="chart-section">
+          <h2>Hire Rate by Name Class Signal</h2>
+          <canvas id="chart-class"></canvas>
+        </div>
+        <div class="chart-section">
+          <h2>Hire Rate by Publications</h2>
+          <canvas id="chart-pubs"></canvas>
+        </div>
+        <div class="chart-section">
+          <h2>Hire Rate by Teaching Evaluation</h2>
+          <canvas id="chart-teaching"></canvas>
+        </div>
+        <div class="chart-section">
+          <h2>Hire Rate by Display Position</h2>
+          <canvas id="chart-position"></canvas>
+        </div>
+        <div class="chart-section">
+          <h2>Logistic Regression Coefficients</h2>
+          <div id="regression-table-container"></div>
+        </div>
+      </div>
+      <div class="chart-section">
+        <h2>Response Count</h2>
+        <p id="response-count"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -260,11 +260,6 @@
   }
 
   function renderCharts(rows) {
-    var phdRates = computeHireRates(rows, function (row, side) {
-      return PHD_TIER_LABELS[row[side + '_phd_tier']] || 'Tier ' + row[side + '_phd_tier'];
-    });
-    makeBar('chart-phd', phdRates, ['Ivy/Elite', 'Top State', 'Mid-Tier', 'Low-Prestige']);
-
     var genderRates = computeHireRates(rows, function (row, side) {
       return row[side + '_gender'].charAt(0).toUpperCase() + row[side + '_gender'].slice(1);
     });
@@ -284,6 +279,11 @@
       return row[side + '_teaching'] + '/5.0';
     });
     makeBar('chart-teaching', teachRates, ['4.1/5.0', '4.3/5.0', '4.6/5.0']);
+
+    var phdRates = computeHireRates(rows, function (row, side) {
+      return PHD_TIER_LABELS[row[side + '_phd_tier']] || 'Tier ' + row[side + '_phd_tier'];
+    });
+    makeBar('chart-phd', phdRates, ['Ivy/Elite', 'Top State', 'Mid-Tier', 'Low-Prestige']);
 
     // Position bias (descriptive only, not in regression)
     var positionCounts = { top: 0, bottom: 0, total: 0 };
@@ -318,11 +318,41 @@
       },
       options: {
         responsive: true,
+        layout: { padding: { top: 30 } },
         scales: {
+          x: { ticks: { font: { size: 14, weight: 'bold' } } },
           y: { beginAtZero: true, max: 100, ticks: { callback: function (v) { return v + '%'; } } },
         },
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end',
+            align: 'end',
+            formatter: function (v) { return v + '%'; },
+            font: { size: 22, weight: 'bold' },
+            color: '#1a1a1a',
+          },
+        },
       },
+      plugins: [{
+        id: 'datalabels',
+        afterDatasetsDraw: function (chart) {
+          var ctx = chart.ctx;
+          chart.data.datasets.forEach(function (dataset, i) {
+            var meta = chart.getDatasetMeta(i);
+            meta.data.forEach(function (bar, index) {
+              var value = dataset.data[index];
+              ctx.save();
+              ctx.font = 'bold 22px Inter, sans-serif';
+              ctx.fillStyle = '#1a1a1a';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'bottom';
+              ctx.fillText(value + '%', bar.x, bar.y - 6);
+              ctx.restore();
+            });
+          });
+        },
+      }],
     });
   }
 
